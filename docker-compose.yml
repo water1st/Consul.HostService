@@ -75,7 +75,7 @@ services:
     networks:
       - network
     expose: 
-      - 8500
+      - 8500:8500
     restart: always
 
 networks:
