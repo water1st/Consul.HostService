@@ -1,113 +1,161 @@
 version: '3.4'
 
 services:
-  api1:
-    image: ${DOCKER_REGISTRY-}api
-    build:
-      context: .
-      dockerfile: sample/API/Dockerfile
-    depends_on: 
-      - consul1
-      - consul2
-      - consul3
-      - consul4
+    api1:
+        image: ${DOCKER_REGISTRY-}api
+        build:
+            context: .
+            dockerfile: sample/API/Dockerfile
+        depends_on: 
+            - consul1
+            - consul2
+            - consul3
+            - consul4
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=http://+:80
+        ports:
+            - 8081:80
+        networks:
+            - network
+    api2:
+        image: ${DOCKER_REGISTRY-}api
+        build:
+            context: .
+            dockerfile: sample/API/Dockerfile
+        depends_on: 
+            - consul1
+            - consul2
+            - consul3
+            - consul4
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=http://+:80
+        ports:
+            - 8082:80
+        networks:
+            - network
 
-  api2:
-    image: ${DOCKER_REGISTRY-}api
-    build:
-      context: .
-      dockerfile: sample/API/Dockerfile
-    depends_on: 
-      - consul1
-      - consul2
-      - consul3
-      - consul4
-
-  api3:
-    image: ${DOCKER_REGISTRY-}api
-    build:
-      context: .
-      dockerfile: sample/API/Dockerfile
-    depends_on: 
-      - consul1
-      - consul2
-      - consul3
-      - consul4
-
-  api4:
-    image: ${DOCKER_REGISTRY-}api
-    build:
-      context: .
-      dockerfile: sample/API/Dockerfile
-    depends_on: 
-      - consul1
-      - consul2
-      - consul3
-      - consul4
-
-  api5:
-    image: ${DOCKER_REGISTRY-}api
-    build:
-      context: .
-      dockerfile: sample/API/Dockerfile
-    depends_on: 
-      - consul1
-      - consul2
-      - consul3
-      - consul4
-
-  api6:
-    image: ${DOCKER_REGISTRY-}api
-    build:
-      context: .
-      dockerfile: sample/API/Dockerfile
-    depends_on: 
-      - consul1
-      - consul2
-      - consul3
-      - consul4
+    api3:
+        image: ${DOCKER_REGISTRY-}api
+        build:
+            context: .
+            dockerfile: sample/API/Dockerfile
+        depends_on: 
+            - consul1
+            - consul2
+            - consul3
+            - consul4
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=http://+:80
+        ports:
+            - 8083:80
+        networks:
+            - network
 
 
-  consul1:
-    image: consul:1.9.5
-    container_name: consul-node1
-    command: agent -server -bootstrap-expect=3 -node=consul-node1 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
-    networks:
-      - network
-    expose: 
-      - 8500
-    restart: always
+    api4:
+        image: ${DOCKER_REGISTRY-}api
+        build:
+            context: .
+            dockerfile: sample/API/Dockerfile
+        depends_on: 
+            - consul1
+            - consul2
+            - consul3
+            - consul4
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=http://+:80
+        ports:
+            - 8084:80
+        networks:
+            - network
 
-  consul2:
-    image: consul:1.9.5
-    container_name: consul-node2
-    command: agent -server -retry-join=consul-node1 -node=consul-node2 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
-    networks:
-      - network
-    expose: 
-      - 8500
-    restart: always
+    api5:
+        image: ${DOCKER_REGISTRY-}api
+        build:
+            context: .
+            dockerfile: sample/API/Dockerfile
+        depends_on: 
+            - consul1
+            - consul2
+            - consul3
+            - consul4
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=http://+:80
+        ports:
+            - 8085:80
+        networks:
+            - network
 
-  consul3:
-    image: consul:1.9.5
-    container_name: consul-node3
-    command: agent -server -retry-join=consul-node1 -node=consul-node3 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
-    networks:
-      - network
-    expose: 
-      - 8500
-    restart: always
+    api6:
+        image: ${DOCKER_REGISTRY-}api
+        build:
+            context: .
+            dockerfile: sample/API/Dockerfile
+        depends_on: 
+            - consul1
+            - consul2
+            - consul3
+            - consul4
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=http://+:80
+        ports:
+            - 8086:80
+        networks:
+            - network
 
-  consul4:
-    image: consul:1.9.5
-    container_name: consul-node4
-    command: agent -retry-join=consul-node1 -node=consul-node4 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1 -ui
-    networks:
-      - network
-    expose: 
-      - 8500:8500
-    restart: always
+    consul1:
+        image: consul:1.9.5
+        container_name: consul-node1
+        command: agent -server -bootstrap-expect=3 -node=consul-node1 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+        networks:
+            - network
+        expose: 
+            - 8500
+        restart: always
+
+    consul2:
+        image: consul:1.9.5
+        container_name: consul-node2
+        command: agent -server -retry-join=consul-node1 -node=consul-node2 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+        depends_on:
+            - consul1
+        expose: 
+            - 8500
+        networks:
+            - network
+        restart: always
+
+    consul3:
+        image: consul:1.9.5
+        container_name: consul-node3
+        command: agent -server -retry-join=consul-node1 -node=consul-node3 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+        expose: 
+            - 8500
+        depends_on:
+            - consul1
+        networks:
+            - network
+        restart: always
+
+    consul4:
+        image: consul:1.9.5
+        container_name: consul-node4
+        command: agent -retry-join=consul-node1 -node=consul-node4 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1 -ui 
+        ports:
+            - 8500:8500
+        depends_on:
+            - consul2
+            - consul3
+        networks:
+            - network
+        restart: always
 
 networks:
-  network:
-    driver: bridge
+    network:
+        driver: bridge
