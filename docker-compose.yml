@@ -1,0 +1,83 @@
+version: '3.4'
+
+services:
+  api1:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: sample/API/Dockerfile
+
+  api2:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: sample/API/Dockerfile
+
+  api3:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: sample/API/Dockerfile
+
+  api4:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: sample/API/Dockerfile
+
+  api5:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: sample/API/Dockerfile
+
+  api6:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: sample/API/Dockerfile
+
+
+  consul1:
+    image: consul:1.9.5
+    container_name: consul-node1
+    command: agent -server -bootstrap-expect=3 -node=consul-node1 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    networks:
+      - network
+    expose: 
+      - 8500
+    restart: always
+
+  consul2:
+    image: consul:1.9.5
+    container_name: consul-node2
+    command: agent -server -retry-join=consul-node1 -node=consul-node2 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    networks:
+      - network
+    expose: 
+      - 8500
+    restart: always
+
+  consul3:
+    image: consul:1.9.5
+    container_name: consul-node3
+    command: agent -server -retry-join=consul-node1 -node=consul-node3 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    networks:
+      - network
+    expose: 
+      - 8500
+    restart: always
+
+  consul4:
+    image: consul:1.9.5
+    container_name: consul-node4
+    command: agent -retry-join=consul-node1 -node=consul-node4 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1 -ui
+    networks:
+      - network
+    expose: 
+      - 8500
+    restart: always
+
+networks:
+  network:
+    driver: bridge
