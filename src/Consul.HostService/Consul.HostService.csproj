@@ -8,6 +8,7 @@
     <PackageProjectUrl>https://github.com/water1st/Consul.HostService</PackageProjectUrl>
     <Authors>water_1st</Authors>
     <Company>water_1st</Company>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
