@@ -2,6 +2,11 @@
 {
     public class ServiceInfo
     {
+        public ServiceInfo()
+        {
+            HealthCheck = new HealthCheckInfo();
+        }
+
         public string ServicesName { get; set; }
         public string ServicesId { get; set; }
         public string ServiceAddress { get; set; }
