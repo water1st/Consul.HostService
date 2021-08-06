@@ -48,7 +48,7 @@ namespace Consul.HostService
         private void ConsulConfig(ConsulClientConfiguration config)
         {
             var random = new Random();
-            var index = random.Next(0, options.ConsulServers.Length - 1);
+            var index = random.Next(0, options.ConsulServers.Length);
             var host = options.ConsulServers[index];
             config.Address = new Uri(host);
             config.Datacenter = options.Datacenter;
