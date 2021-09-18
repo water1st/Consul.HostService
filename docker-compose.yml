@@ -6,6 +6,8 @@ services:
         build:
             context: .
             dockerfile: sample/API/Dockerfile
+        volumes: 
+            - ./logs/log.txt:/app/log.txt
         depends_on: 
             - consul1
             - consul2
@@ -14,6 +16,7 @@ services:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_URLS=http://+:80
+            - LOG_PATH=/app/log.txt
         ports:
             - 8081:80
         networks:
@@ -28,9 +31,12 @@ services:
             - consul2
             - consul3
             - consul4
+        volumes: 
+            - ./logs/log.txt:/app/log.txt
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_URLS=http://+:80
+            - LOG_PATH=/app/log.txt
         ports:
             - 8082:80
         networks:
@@ -49,6 +55,9 @@ services:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_URLS=http://+:80
+            - LOG_PATH=/app/log.txt
+        volumes: 
+            - ./logs/log.txt:/app/log.txt
         ports:
             - 8083:80
         networks:
@@ -68,6 +77,9 @@ services:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_URLS=http://+:80
+            - LOG_PATH=/app/log.txt
+        volumes: 
+            - ./logs/log.txt:/app/log.txt
         ports:
             - 8084:80
         networks:
@@ -78,6 +90,8 @@ services:
         build:
             context: .
             dockerfile: sample/API/Dockerfile
+        volumes: 
+            - ./logs/log.txt:/app/log.txt        
         depends_on: 
             - consul1
             - consul2
@@ -86,6 +100,7 @@ services:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_URLS=http://+:80
+            - LOG_PATH=/app/log.txt
         ports:
             - 8085:80
         networks:
@@ -96,6 +111,8 @@ services:
         build:
             context: .
             dockerfile: sample/API/Dockerfile
+        volumes: 
+            - ./logs/log.txt:/app/log.txt
         depends_on: 
             - consul1
             - consul2
@@ -104,6 +121,7 @@ services:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_URLS=http://+:80
+            - LOG_PATH=/app/log.txt
         ports:
             - 8086:80
         networks:

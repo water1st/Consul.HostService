@@ -9,10 +9,18 @@ namespace Consul.HostService
     class ConsulHostService : IHostedService
     {
         private readonly ConsulOption options;
+        private Lazy<string> host;
 
         public ConsulHostService(IOptions<ConsulOption> options)
         {
             this.options = options.Value;
+            host = new Lazy<string>(() =>
+            {
+                var random = new Random();
+                var index = random.Next(0, this.options.ConsulServers.Length);
+                var host = this.options.ConsulServers[index];
+                return host; ;
+            });
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -41,15 +49,13 @@ namespace Consul.HostService
         {
             using (var client = new ConsulClient(ConsulConfig))
             {
-                await client.Agent.ServiceDeregister(options.ServiceInfo.ServicesId, cancellationToken);
+                await client.Agent.ServiceDeregister(options.ServiceInfo.ServicesId);
             }
         }
 
         private void ConsulConfig(ConsulClientConfiguration config)
         {
-            var random = new Random();
-            var index = random.Next(0, options.ConsulServers.Length);
-            var host = options.ConsulServers[index];
+            var host = this.host.Value;
             config.Address = new Uri(host);
             config.Datacenter = options.Datacenter;
         }
