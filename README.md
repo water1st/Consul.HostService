@@ -11,13 +11,16 @@ Next, register to IServiceCollection
 ```csharp
             services.AddConsulHostService(builder =>
             {
-                builder.Options.ConsulServers = new string[] { "http://consul-node1:8500", "http://consul-node2:8500", "http://consul-node3:8500", "http://consul-node4:8500" };
+                var host = builder.GetCurrentHost();
+                var port = 80;
+
+                builder.Options.ConsulServers = new string[] { "http://consul1:8500", "http://consul2:8500", "http://consul3:8500", "http://consul4:8500" };
                 builder.Options.Datacenter = "dc1";
                 builder.Options.ServiceInfo.ServicesId = builder.GetContainerID();
                 builder.Options.ServiceInfo.ServicesName = "test_service";
-                builder.Options.ServiceInfo.ServiceAddress = builder.GetCurrentHost();
-                builder.Options.ServiceInfo.ServicePort = 80;
-                builder.Options.ServiceInfo.HealthCheck.Endpoint = $"http://{builder.Options.ServiceInfo.ServiceAddress}:{builder.Options.ServiceInfo.ServicePort}/api/health";
+                builder.Options.ServiceInfo.ServiceAddress = host;
+                builder.Options.ServiceInfo.ServicePort = port;
+                builder.Options.ServiceInfo.HealthCheck.Endpoint = $"http://{host}:{port}/api/health";
                 builder.Options.ServiceInfo.HealthCheck.DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5);
                 builder.Options.ServiceInfo.HealthCheck.Interval = TimeSpan.FromSeconds(10);
                 builder.Options.ServiceInfo.HealthCheck.Timeout = TimeSpan.FromSeconds(5);
